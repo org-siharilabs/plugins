@@ -1,0 +1,10 @@
+{
+  "plugins": [
+    {
+      "name": "chatverce-design",
+      "description": "Jony Ive-inspired design system and brand identity for Chatverce",
+      "source": "./chatverce-design",
+      "version": "1.0.0"
+    }
+  ]
+}
