@@ -39,11 +39,11 @@ Produces a structured report with findings grouped by severity (Must fix / Shoul
 ## Installation
 
 ```bash
-# Add the Sihari Labs marketplace
-claude plugin marketplace add --url https://github.com/org-siharilabs/plugins
+# Add the Sihari Labs marketplace (from inside Claude Code)
+/plugin marketplace add org-siharilabs/plugins
 
 # Install (from inside a Chatverce project)
-claude plugin install chatverce-design@org-siharilabs-plugins --scope project
+/plugin install chatverce-design@siharilabs-plugins
 ```
 
 For local development:

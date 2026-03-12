@@ -11,16 +11,45 @@ A collection of Claude Code plugins by Sihari Labs.
 ## Installation
 
 ```bash
-# Add this marketplace
-claude plugin marketplace add --url https://github.com/org-siharilabs/plugins
+# Add this marketplace (from inside Claude Code)
+/plugin marketplace add org-siharilabs/plugins
 
 # Install a plugin (from inside a Chatverce project)
-claude plugin install chatverce-design@org-siharilabs-plugins --scope project
+/plugin install chatverce-design@siharilabs-plugins
+```
+
+## Team Setup
+
+Add to your project's `.claude/settings.json` so team members get prompted automatically:
+
+```json
+{
+  "extraKnownMarketplaces": {
+    "siharilabs-plugins": {
+      "source": {
+        "source": "github",
+        "repo": "org-siharilabs/plugins"
+      }
+    }
+  },
+  "enabledPlugins": {
+    "chatverce-design@siharilabs-plugins": true
+  }
+}
 ```
 
 ## Local Development
 
 ```bash
-# Run from inside the plugins/ repo root
+# Test the marketplace locally
+/plugin marketplace add ./path/to/plugins
+
+# Or load a single plugin directly
 claude --plugin-dir ./chatverce-design
+```
+
+## Validation
+
+```bash
+claude plugin validate .
 ```
