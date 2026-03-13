@@ -12,7 +12,7 @@ A collection of Claude Code plugins by Sihari Labs.
 
 ```bash
 # Add this marketplace (from inside Claude Code)
-/plugin marketplace add org-siharilabs/plugins
+/plugin marketplace add siharilabs/plugins
 
 # Install a plugin (from inside a Chatverce project)
 /plugin install chatverce-design@siharilabs
@@ -28,7 +28,7 @@ Add to your project's `.claude/settings.json` so team members get prompted autom
     "siharilabs": {
       "source": {
         "source": "github",
-        "repo": "org-siharilabs/plugins"
+        "repo": "siharilabs/plugins"
       }
     }
   },

@@ -18,7 +18,7 @@
         "name": "Sihari Labs",
         "email": "admin@siharilabs.com"
       },
-      "repository": "https://github.com/org-siharilabs/plugins",
+      "repository": "https://github.com/siharilabs/plugins",
       "license": "Proprietary",
       "keywords": ["design-system", "brand-identity", "chatverce", "ui", "ux"],
       "category": "design"
