@@ -40,7 +40,7 @@ Produces a structured report with findings grouped by severity (Must fix / Shoul
 
 ```bash
 # Add the Sihari Labs marketplace (from inside Claude Code)
-/plugin marketplace add siharilabs/plugins
+/plugin marketplace add org-siharilabs/plugins
 
 # Install (from inside a Chatverce project)
 /plugin install chatverce-design@siharilabs
