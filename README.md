@@ -15,7 +15,7 @@ A collection of Claude Code plugins by Sihari Labs.
 /plugin marketplace add org-siharilabs/plugins
 
 # Install a plugin (from inside a Chatverce project)
-/plugin install chatverce-design@siharilabs-plugins
+/plugin install chatverce-design@siharilabs
 ```
 
 ## Team Setup
@@ -25,7 +25,7 @@ Add to your project's `.claude/settings.json` so team members get prompted autom
 ```json
 {
   "extraKnownMarketplaces": {
-    "siharilabs-plugins": {
+    "siharilabs": {
       "source": {
         "source": "github",
         "repo": "org-siharilabs/plugins"
@@ -33,7 +33,7 @@ Add to your project's `.claude/settings.json` so team members get prompted autom
     }
   },
   "enabledPlugins": {
-    "chatverce-design@siharilabs-plugins": true
+    "chatverce-design@siharilabs": true
   }
 }
 ```

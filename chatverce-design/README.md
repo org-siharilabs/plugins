@@ -43,7 +43,7 @@ Produces a structured report with findings grouped by severity (Must fix / Shoul
 /plugin marketplace add org-siharilabs/plugins
 
 # Install (from inside a Chatverce project)
-/plugin install chatverce-design@siharilabs-plugins
+/plugin install chatverce-design@siharilabs
 ```
 
 For local development:
