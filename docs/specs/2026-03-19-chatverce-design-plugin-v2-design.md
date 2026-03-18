@@ -58,6 +58,18 @@ Full scales (50–950) for each hue:
 | `cv-amber-*` | Warning states |
 | `cv-green-*` | Success states |
 
+**Channel colors** (standalone primitives, not scaled):
+
+| Token | Value | Usage |
+|-------|-------|-------|
+| `cv-channel-whatsapp` | `#25D366` | WhatsApp channel indicator only |
+| `cv-channel-telegram` | `#26A5E4` | Telegram channel indicator only |
+| `cv-channel-webchat` | `cv-gray-500` | Webchat channel indicator |
+| `cv-channel-telephone` | `cv-navy-700` | Telephone channel indicator |
+| `cv-channel-email` | `cv-navy-700` | Email channel indicator |
+
+**Rule:** Channel colors are never used as primary/accent. Chatverce identity is navy + teal.
+
 Each scale: `50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950`
 
 ### Layer 2 — Semantic
@@ -112,7 +124,8 @@ Intent-based tokens that switch values per theme. This is what code references.
 
 | Category | Tokens |
 |----------|--------|
-| Typography | `--cv-font-sans: 'Inter', system-ui, sans-serif`, `--cv-font-mono: 'JetBrains Mono', monospace` |
+| Typography (families) | `--cv-font-sans: 'Inter', system-ui, sans-serif`, `--cv-font-mono: 'JetBrains Mono', monospace` |
+| Typography (scale) | `--cv-text-display: 600 36-48px/1.1`, `--cv-text-h1: 600 28-32px/1.2`, `--cv-text-h2: 600 20-24px/1.3`, `--cv-text-h3: 500 16-18px/1.4`, `--cv-text-body: 400 14-16px/1.5`, `--cv-text-caption: 400 12-13px/1.4`, `--cv-text-code: 400 13-14px/1.5 (mono)` |
 | Radius | `--cv-radius-sm: 6px`, `--cv-radius-md: 8px`, `--cv-radius-lg: 12px`, `--cv-radius-full: 9999px` |
 | Spacing | `--cv-space-1: 4px` through `--cv-space-24: 96px` (4px base: 4·8·12·16·20·24·32·40·48·64·80·96) |
 | Shadows | `--cv-shadow-sm`, `--cv-shadow-md`, `--cv-shadow-lg` (using `--cv-shadow-color` for theme adaptation) |
@@ -503,6 +516,13 @@ Every example uses:
 | `brand-identity/tokens.md` | `theme-system/tokens-*.md` (rebuilt, MUI dropped) |
 | `component-patterns/SKILL.md` | Individual component skills + `motion/` + `voice-and-tone/` |
 | `component-patterns/examples.md` | Embedded in each component SKILL.md |
+
+### Updated
+
+| File | Changes |
+|------|---------|
+| `.claude-plugin/plugin.json` | Version bumped to `2.0.0`, description updated, activation rules added |
+| `.claude-plugin/marketplace.json` (repo root) | Version bumped to match |
 
 ### Metrics
 
