@@ -309,7 +309,7 @@ Each scale: `50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950`
 | Category | Tokens |
 |----------|--------|
 | Typography (families) | `cv-font-sans: 'Inter', system-ui, sans-serif`, `cv-font-mono: 'JetBrains Mono', monospace` |
-| Typography (scale) | `cv-text-display: 600 36-48px/1.1`, `cv-text-h1: 600 28-32px/1.2`, `cv-text-h2: 600 20-24px/1.3`, `cv-text-h3: 500 16-18px/1.4`, `cv-text-body: 400 14-16px/1.5`, `cv-text-caption: 400 12-13px/1.4`, `cv-text-code: 400 13-14px/1.5 (mono)` |
+| Typography (scale) | `cv-text-display: 600 36-48px/1.1`, `cv-text-h1: 600 28-32px/1.2`, `cv-text-h2: 600 20-24px/1.3`, `cv-text-h3: 500 16-18px/1.4`, `cv-text-body: 400 14-16px/1.5`, `cv-text-caption: 400 12-13px/1.4`, `cv-text-code: 400 13-14px/1.5 (mono)`. Ranges are fluid via `clamp()` on web (e.g., `clamp(14px, 1vw + 12px, 16px)` for body). Mobile uses fixed lower-bound values with platform-level Dynamic Type / font scaling. |
 | Radius | `cv-radius-sm: 6px`, `cv-radius-md: 8px`, `cv-radius-lg: 12px`, `cv-radius-full: 9999px` |
 | Spacing | `cv-space-1: 4px` through `cv-space-24: 96px` (4px base: 4·8·12·16·20·24·32·40·48·64·80·96) |
 | Shadows | `cv-shadow-sm`, `cv-shadow-md`, `cv-shadow-lg` (using `cv-shadow-color` for theme adaptation) |
@@ -923,7 +923,7 @@ chatverce-design/
         semantic-dark.md                     # Dark theme mappings
         tokens-tailwind.md                   # Shared Tailwind config (web + NativeWind)
         tokens-css.md                        # CSS custom properties (web-only)
-        tokens-rn.md                         # React Native constants (fallback)
+        tokens-rn.md                         # React Native constants (for StyleSheet.create when NativeWind classes can't be used, e.g., Reanimated interpolation, dynamic styles)
       color/
         SKILL.md                             # Color principles, usage, contrast rules
         contrast-matrix.md                   # Verified ratios for all token pairs
