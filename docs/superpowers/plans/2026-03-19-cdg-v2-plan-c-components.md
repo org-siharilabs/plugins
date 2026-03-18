@@ -128,13 +128,13 @@ chatverce-design/skills/components/
   badge/SKILL.md                       #
   tooltip/SKILL.md                     #
   progress-indicator/SKILL.md          #
-  accordion/SKILL.md                   # Task 7: Content organization
-  agent-builder-canvas/SKILL.md        # Task 8: Chatverce-specific (Full)
+  agent-builder-canvas/SKILL.md        # Task 7: Chatverce-specific (Full)
   agent-builder-node/SKILL.md          #
   conversation-thread/SKILL.md         #
 
   # Standard Tier (Tasks 9-13, batched)
-  breadcrumbs/SKILL.md                 # Task 9: Navigation/structure
+  accordion/SKILL.md                   # Task 8: Navigation/structure (Standard)
+  breadcrumbs/SKILL.md                 # Task 8: Navigation/structure
   button-group/SKILL.md                #
   fieldset/SKILL.md                    #
   header/SKILL.md                      #
@@ -296,7 +296,7 @@ git commit -m "feat(cdg): add feedback components — toast, alert, empty-state"
 
 ---
 
-### Task 4: Full Tier — Data Entry Components (10 components)
+### Task 4: Full Tier — Data Entry Components (11 components)
 
 **Files:** Create SKILL.md in: `form/`, `text-input/`, `textarea/`, `select/`, `checkbox/`, `radio-button/`, `toggle/`, `combobox/`, `datepicker/`, `file-upload/`, `search-input/`
 
@@ -337,21 +337,20 @@ git commit -m "feat(cdg): add navigation components — nav, tabs, dropdown-menu
 
 ---
 
-### Task 6: Full Tier — Data Display Components (6 components)
+### Task 6: Full Tier — Data Display Components (5 components)
 
-**Files:** Create SKILL.md in: `table/`, `skeleton/`, `avatar/`, `badge/`, `progress-indicator/`, `accordion/`
+**Files:** Create SKILL.md in: `table/`, `skeleton/`, `avatar/`, `badge/`, `progress-indicator/`
 
 - [ ] **Step 1: Write table/SKILL.md** — Clean, minimal borders. Row hover. Sortable columns. Responsive: horizontal scroll on mobile or card view. Always empty state.
 - [ ] **Step 2: Write skeleton/SKILL.md** — Placeholder matching content layout. Shimmer animation. `aria-busy="true"`. Shapes: text lines, circles (avatars), rectangles (cards).
 - [ ] **Step 3: Write avatar/SKILL.md** — User/assistant photos. Fallback: initials on colored bg (8 avatar colors). Sizes: sm (32px), md (40px), lg (64px). Online indicator (green dot).
 - [ ] **Step 4: Write badge/SKILL.md** — Small label for status/count. Variants: default, success, warning, error, channel. Truncate long text. Max 3 digits for counts ("99+").
 - [ ] **Step 5: Write progress-indicator/SKILL.md** — Step-by-step progress (onboarding, forms). Numbered steps or dots. Current/completed/upcoming states.
-- [ ] **Step 6: Write accordion/SKILL.md** — Collapsible sections. `aria-expanded`. Arrow icon rotates. Single or multi-expand. Animate height with `cv-duration-normal`.
-- [ ] **Step 7: Commit**
+- [ ] **Step 6: Commit**
 
 ```bash
-git add chatverce-design/skills/components/{table,skeleton,avatar,badge,progress-indicator,accordion}/SKILL.md
-git commit -m "feat(cdg): add data display components — table, skeleton, avatar, badge, progress, accordion"
+git add chatverce-design/skills/components/{table,skeleton,avatar,badge,progress-indicator}/SKILL.md
+git commit -m "feat(cdg): add data display components — table, skeleton, avatar, badge, progress-indicator"
 ```
 
 ---
@@ -389,16 +388,16 @@ git commit -m "feat(cdg): add Chatverce-specific components — agent builder ca
 
 Each batch follows the same pattern: write SKILL.md at Standard depth (200-350 words, all sections concise, 1-2 variants).
 
-#### Task 8: Standard — Navigation/Structure (6 components)
+#### Task 8: Standard — Navigation/Structure (7 components)
 
-**Files:** `breadcrumbs/`, `button-group/`, `fieldset/`, `header/`, `footer/`, `heading/`
+**Files:** `accordion/`, `breadcrumbs/`, `button-group/`, `fieldset/`, `header/`, `footer/`, `heading/`
 
-- [ ] **Step 1:** Write all 6 SKILL.md files. Brief: each ~250 words, concise variants, primary platform example, accessibility role.
+- [ ] **Step 1:** Write all 7 SKILL.md files. Brief: each ~250 words, concise variants, primary platform example, accessibility role. Accordion: collapsible sections, `aria-expanded`, arrow icon rotates, animate height with `cv-duration-normal`.
 - [ ] **Step 2: Commit**
 
 ```bash
-git add chatverce-design/skills/components/{breadcrumbs,button-group,fieldset,header,footer,heading}/SKILL.md
-git commit -m "feat(cdg): add standard components — breadcrumbs, button-group, fieldset, header, footer, heading"
+git add chatverce-design/skills/components/{accordion,breadcrumbs,button-group,fieldset,header,footer,heading}/SKILL.md
+git commit -m "feat(cdg): add standard components — accordion, breadcrumbs, button-group, fieldset, header, footer, heading"
 ```
 
 #### Task 9: Standard — Content (6 components)

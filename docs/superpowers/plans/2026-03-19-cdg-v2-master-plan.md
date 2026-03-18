@@ -22,9 +22,9 @@ Plan D: Enforcement┘
 
 | Plan | File | Status | Estimated Tasks |
 |------|------|--------|-----------------|
-| **A: Core** | `2026-03-19-cdg-v2-plan-a-core.md` | Ready | 18 tasks |
-| **B: Patterns** | `2026-03-19-cdg-v2-plan-b-patterns.md` | Pending Plan A | 16 tasks |
-| **C: Components** | `2026-03-19-cdg-v2-plan-c-components.md` | Pending Plan A | 20 tasks (batched) |
+| **A: Core** | `2026-03-19-cdg-v2-plan-a-core.md` | Ready | 19 tasks |
+| **B: Patterns** | `2026-03-19-cdg-v2-plan-b-patterns.md` | Pending Plan A | 14 tasks |
+| **C: Components** | `2026-03-19-cdg-v2-plan-c-components.md` | Pending Plan A | 14 tasks (batched) |
 | **D: Enforcement & Tooling** | `2026-03-19-cdg-v2-plan-d-enforcement.md` | Pending Plan A | 10 tasks |
 
 ## What Each Plan Delivers

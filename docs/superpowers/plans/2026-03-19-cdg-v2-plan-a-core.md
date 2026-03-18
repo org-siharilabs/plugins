@@ -1124,7 +1124,7 @@ After all 19 tasks, verify:
 find chatverce-design/skills/philosophy chatverce-design/skills/foundations -name "*.md" | wc -l
 ```
 
-Expected: 21 files
+Expected: 19 files (2 philosophy + 7 theme-system + 2 color + 8 other foundations)
 
 ---
 
