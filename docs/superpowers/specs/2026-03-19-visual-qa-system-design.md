@@ -143,7 +143,7 @@ For each route, capture:
 **Theme switching strategy** (try in order):
 1. **localStorage key:** Use `browser_evaluate` to set `localStorage.setItem('theme', 'dark')` (or `'light'`) and reload. Check if Chatverce uses a theme key in localStorage.
 2. **UI toggle:** If a theme toggle button exists in the UI, click it via Playwright.
-3. **CSS media emulation:** Use `browser_evaluate` to call Playwright CDP: `await page.emulateMedia({ colorScheme: 'dark' })`. Note: this requires `browser_run_code` or equivalent CDP access.
+3. **CSS media emulation:** Use `browser_run_code` to call Playwright's `page.emulateMedia({ colorScheme: 'dark' })` directly.
 
 The crawler should detect which method works on first route and reuse it for subsequent routes. Log which method was used in the manifest.
 
