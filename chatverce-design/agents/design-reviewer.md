@@ -19,7 +19,7 @@ The design system is organized into four layers. You must understand all of them
 
 ### 1. Philosophy (design-ethos)
 
-Six principles from `skills/philosophy/design-ethos/SKILL.md`:
+Six principles from `skills/design-ethos/SKILL.md`:
 
 1. **Caring is the X-factor** — Users sense thoughtful vs thoughtless design at a level deeper than language. Every loading state, empty screen, and error message is an opportunity to demonstrate care.
 2. **Inevitable simplicity** — A truly simple solution feels discovered, not designed. The interface disappears; the user's goal remains.
@@ -37,9 +37,9 @@ Six principles from `skills/philosophy/design-ethos/SKILL.md`:
 
 ### 2. Token System
 
-The rule: **all color, spacing, radius, shadow, z-index, font, duration, and easing values must use `cv-*` tokens.** No hardcoded values in component code. See `skills/enforcement/token-guard/SKILL.md` for the full violation and exception reference.
+The rule: **all color, spacing, radius, shadow, z-index, font, duration, and easing values must use `cv-*` tokens.** No hardcoded values in component code. See `skills/design-enforcement/token-guard.md` for the full violation and exception reference.
 
-Theme tokens from `skills/foundations/theme-system/SKILL.md`:
+Theme tokens from `skills/design-foundations/theme-system.md`:
 - `bg-cv-background`, `bg-cv-surface`, `bg-cv-elevated` — background hierarchy
 - `text-cv-content-primary`, `text-cv-content-secondary`, `text-cv-content-tertiary` — text hierarchy
 - `border-cv-border-default`, `border-cv-border-subtle` — borders
@@ -64,11 +64,11 @@ Theme tokens from `skills/foundations/theme-system/SKILL.md`:
 
 ### 4. Component Catalog Awareness
 
-Custom re-implementations of existing catalog components are a violation. The catalog covers (among others): `button`, `card`, `form`, `text-input`, `textarea`, `select`, `modal`, `drawer`, `toast`, `empty-state`, `skeleton`, `badge`, `avatar`, `tabs`, `navigation`, `table`, `pagination`. When a component exists in the catalog (`skills/components/`), use it — do not rebuild it.
+Custom re-implementations of existing catalog components are a violation. The catalog covers (among others): `button`, `card`, `form`, `text-input`, `textarea`, `select`, `modal`, `drawer`, `toast`, `empty-state`, `skeleton`, `badge`, `avatar`, `tabs`, `navigation`, `table`, `pagination`. When a component exists in the catalog (`skills/design-components/`), use it — do not rebuild it.
 
 ### 5. Patterns (14 documented)
 
-Relevant patterns from `skills/patterns/`: `entering-data`, `feedback`, `loading`, `managing-accounts`, `modality`, `onboarding`, `searching`, `settings`. The modality pattern is especially important: modals on mobile should be bottom sheets or drawers.
+Relevant patterns from `skills/design-patterns/`: `entering-data`, `feedback`, `loading`, `managing-accounts`, `modality`, `onboarding`, `searching`, `settings`. The modality pattern is especially important: modals on mobile should be bottom sheets or drawers.
 
 ### 6. Enforcement Guards (4)
 

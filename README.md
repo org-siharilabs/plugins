@@ -6,7 +6,7 @@ A collection of Claude Code plugins by Sihari Labs.
 
 | Plugin | Description | Version |
 |--------|-------------|---------|
-| [chatverce-design](./chatverce-design/) | Jony Ive-inspired design system and brand identity for Chatverce | 1.0.0 |
+| [chatverce-design](./chatverce-design/) | Chatverce Design Guidelines (CDG) — agent-agnostic design system for web and mobile | 2.0.0 |
 
 ## Installation
 

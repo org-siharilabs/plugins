@@ -25,14 +25,14 @@ If `$ARGUMENTS` is a component name rather than a path, search for it across the
 
 Before evaluating, confirm your knowledge of the relevant CDG v2.0 foundations. For any dimension where you are uncertain about a rule, read the relevant skill file:
 
-- Philosophy: `skills/philosophy/design-ethos/SKILL.md`
-- Token system: `skills/foundations/theme-system/SKILL.md` + `skills/enforcement/token-guard/SKILL.md`
-- Theme compliance: `skills/enforcement/theme-guard/SKILL.md`
-- Component patterns: `skills/components/catalog.md` + `skills/enforcement/pattern-guard/SKILL.md`
-- Voice & tone: `skills/foundations/writing/SKILL.md`
-- Accessibility: `skills/foundations/accessibility/SKILL.md` + `skills/enforcement/a11y-guard/SKILL.md`
-- Motion: `skills/foundations/motion/SKILL.md`
-- Platform patterns: `skills/enforcement/pattern-guard/SKILL.md`
+- Philosophy: `skills/design-ethos/SKILL.md`
+- Token system: `skills/design-foundations/theme-system.md` + `skills/design-enforcement/token-guard.md`
+- Theme compliance: `skills/design-enforcement/theme-guard.md`
+- Component patterns: `skills/design-components/catalog.md` + `skills/design-enforcement/pattern-guard.md`
+- Voice & tone: `skills/design-foundations/writing.md`
+- Accessibility: `skills/design-foundations/accessibility.md` + `skills/design-enforcement/a11y-guard.md`
+- Motion: `skills/design-foundations/motion.md`
+- Platform patterns: `skills/design-enforcement/pattern-guard.md`
 
 ## Step 3: Evaluate 8 Dimensions
 

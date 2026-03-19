@@ -6,14 +6,14 @@
   },
   "metadata": {
     "description": "Claude Code plugins by Sihari Labs — design systems, development tools, and AI workflows",
-    "version": "2.0.0"
+    "version": "2.1.0"
   },
   "plugins": [
     {
       "name": "chatverce-design",
       "source": "./chatverce-design",
       "description": "Chatverce Design Guidelines (CDG) — agent-agnostic design system for building Chatverce across web and mobile. Philosophy, foundations, patterns, components, and enforcement.",
-      "version": "2.0.0",
+      "version": "2.1.0",
       "author": {
         "name": "Sihari Labs",
         "email": "admin@siharilabs.com"

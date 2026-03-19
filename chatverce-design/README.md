@@ -26,21 +26,21 @@ CDG v2.0 is organized into five layers, applied in order of specificity:
 
 | Layer | Count | Purpose |
 |-------|-------|---------|
-| **Philosophy** | 1 skill | Design ethos — the "why" behind every decision |
-| **Foundations** | 10 skills | Core systems: color, typography, spacing, motion, accessibility, and more |
-| **Patterns** | 14 skills | Interaction patterns: onboarding, forms, loading, feedback, real-time, and more |
-| **Components** | 66 components | Detailed rules for every UI component in the design system |
-| **Enforcement** | 4 guards | Active checks: token-guard, theme-guard, pattern-guard, a11y-guard |
+| **Philosophy** | `design-ethos` | Design ethos — the "why" behind every decision |
+| **Foundations** | `design-foundations` | Core systems: tokens, color, typography, spacing, motion, accessibility, and more (18 reference files) |
+| **Patterns** | `design-patterns` | Interaction patterns: onboarding, forms, loading, feedback, real-time, and more (14 reference files) |
+| **Components** | `design-components` | Detailed specs for 66 UI components (66 reference files + catalog) |
+| **Enforcement** | `design-enforcement` | Active checks: token-guard, theme-guard, pattern-guard, a11y-guard (4 reference files) |
 
 ## For AI Agents
 
-Skills activate automatically based on context — no explicit loading required:
+5 top-level skills are auto-discovered by Claude Code. Each skill contains reference files that Claude loads on-demand:
 
-- **Philosophy** — always-on; applies to every design decision
-- **Foundations** — loaded on Chatverce project detection
-- **Patterns** — loaded by feature context (e.g. onboarding flow triggers the onboarding pattern)
-- **Components** — loaded by UI file path (e.g. editing a button component loads the button skill)
-- **Enforcement** — runs during implementation to catch token misuse, theme violations, accessibility issues, and pattern deviations
+- **`design-ethos`** — philosophy loaded when building/reviewing any Chatverce UI
+- **`design-foundations`** — tokens, color, typography loaded during implementation
+- **`design-patterns`** — behavioral patterns loaded based on feature context
+- **`design-components`** — component specs loaded when working with specific components
+- **`design-enforcement`** — guards activated during implementation and code review
 
 ## For Developers
 
@@ -67,7 +67,7 @@ CDG is rooted in six ethos principles, inspired by Jony Ive's approach to craft:
 5. **Emotional Intention** — Before designing a screen, name the feeling it should evoke; that feeling is a specification, not a nice-to-have.
 6. **Thoroughness in Every Inch** — A component is not done until every state, edge case, and interaction mode has been considered.
 
-The full manifesto lives in `skills/philosophy/design-ethos/SKILL.md`.
+The full manifesto lives in `skills/design-ethos/SKILL.md`.
 
 ## Token System
 
