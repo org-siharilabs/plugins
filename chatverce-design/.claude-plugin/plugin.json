@@ -1,12 +1,22 @@
 {
   "name": "chatverce-design",
-  "description": "Jony Ive-inspired design system and brand identity for Chatverce — the no-code AI agent builder platform",
-  "version": "1.0.0",
+  "description": "Chatverce Design Guidelines (CDG) — agent-agnostic design system for building Chatverce across web and mobile. Covers philosophy, foundations, patterns, components, and enforcement.",
+  "version": "2.0.0",
   "author": {
     "name": "Sihari Labs",
     "email": "admin@siharilabs.com"
   },
   "repository": "https://github.com/org-siharilabs/plugins",
   "license": "Proprietary",
-  "keywords": ["design-system", "brand-identity", "chatverce", "ui", "ux"]
+  "keywords": [
+    "design-system",
+    "design-guidelines",
+    "chatverce",
+    "ui",
+    "ux",
+    "dark-mode",
+    "accessibility",
+    "mobile",
+    "web"
+  ]
 }
