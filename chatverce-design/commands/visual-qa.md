@@ -2,7 +2,7 @@
 description: Automated visual QA — screenshots Chatverce pages across viewports and themes, reviews against CDG v2.1, files GitHub issues
 disable-model-invocation: true
 context: fork
-argument-hint: [--url <base>] [--email <email>] [--otp <otp>] <route> [<route> ...]
+argument-hint: "[--url <base>] [--email <email>] [--otp <otp>] <route> [<route> ...]"
 allowed-tools: Read, Write, Bash, Glob, Agent, mcp__plugin_playwright_playwright__browser_navigate, mcp__plugin_playwright_playwright__browser_fill_form, mcp__plugin_playwright_playwright__browser_click, mcp__plugin_playwright_playwright__browser_snapshot, mcp__plugin_playwright_playwright__browser_take_screenshot, mcp__plugin_playwright_playwright__browser_resize, mcp__plugin_playwright_playwright__browser_evaluate, mcp__plugin_playwright_playwright__browser_press_key, mcp__plugin_playwright_playwright__browser_wait_for, mcp__plugin_playwright_playwright__browser_run_code
 ---
 
