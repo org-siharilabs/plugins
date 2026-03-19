@@ -2,7 +2,7 @@
 
 ## Goal
 
-A 3-agent pipeline that uses Playwright to screenshot Chatverce web pages across viewports and themes, reviews them against CDG v2.0 with Steve Jobs-level scrutiny, and files structured GitHub issues on the Chatverce project board.
+A 3-agent pipeline that uses Playwright to screenshot Chatverce web pages across viewports and themes, reviews them against CDG v2.1 with Steve Jobs-level scrutiny, and files structured GitHub issues on the Chatverce project board.
 
 ## Architecture
 
@@ -52,7 +52,7 @@ Three agents orchestrated by a `/visual-qa` command:
 |-----------|-----------|
 | Browser automation | Playwright MCP (already available in Claude Code) |
 | Screenshot storage | `/tmp/visual-qa/` (ephemeral, per-run) |
-| Design guidelines | CDG v2.0 skills (design-ethos, design-foundations, design-components, design-patterns, design-enforcement) |
+| Design guidelines | CDG v2.1 skills (design-ethos, design-foundations, design-components, design-patterns, design-enforcement) |
 | GitHub integration | `gh` CLI (issues, labels, projects) |
 | Target repo | `org-siharilabs/chatverce` |
 | Project board | "Chatverce" GitHub Project |
@@ -75,8 +75,10 @@ Three agents orchestrated by a `/visual-qa` command:
 
 | Parameter | Required | Default | Description |
 |-----------|----------|---------|-------------|
-| `routes` | Yes | — | Space-separated list of routes to test (e.g., `/auth`, `/dashboard`) |
+| `routes` | Yes | — | Space-separated list of routes to test (e.g., `/auth`, `/dashboard`). Nested routes like `/dashboard/analytics` are valid — use the full resolved path. |
 | `--url` | No | `http://localhost:3000` | Base URL of the running app |
+| `--email` | No | `admin@siharilabs.com` | Auth email for login |
+| `--otp` | No | `123456` | OTP code for login |
 
 ### Orchestration Flow
 
@@ -85,11 +87,20 @@ Three agents orchestrated by a `/visual-qa` command:
    - If no `--url`: check `http://localhost:3000`
      - If running: use it
      - If not running: find a free port, start dev server (`npm run dev -- --port <port>`), record PID for cleanup
-2. **Dispatch visual-qa-crawler** with base URL + route list
-3. **Dispatch steve-jobs-reviewer** with screenshot manifest + CDG skill paths
+     - **Health check:** after starting, poll the URL with retries (up to 30 seconds, 1s intervals) until it returns HTTP 200. Abort with clear error if timeout.
+2. **Dispatch visual-qa-crawler** with base URL + route list + auth credentials
+3. **Dispatch steve-jobs-reviewer** with screenshot manifest + CDG skill paths (one route at a time to manage context window — see Agent 2 review strategy)
 4. **Dispatch qa-issue-reporter** with findings JSON
 5. **Cleanup:** if we started a dev server, kill it by PID
 6. **Print terminal summary** — findings grouped by severity with counts
+
+### Error Handling
+
+- **Auth failure:** if the crawler cannot authenticate, abort the run with a clear message naming the failure (wrong credentials, OTP rejected, login page not found). Do not proceed to screenshotting.
+- **Route failure:** if a specific route returns 404 or errors, skip that route, log a warning, and continue with remaining routes. Include the failure in the manifest.
+- **Reviewer failure:** if the reviewer fails on a route, log the error and continue with remaining routes. Partial findings are still reported.
+- **GitHub failure:** if issue creation fails mid-run (rate limit, auth), pause with exponential backoff (1s, 2s, 4s, max 60s). After 3 retries, save unsubmitted findings to `/tmp/visual-qa/pending-issues.json` and print instructions for manual retry.
+- **Zero findings:** if the reviewer finds zero issues, that is a valid success. Print a congratulatory summary ("Steve approves.") — do not create any GitHub issues.
 
 ---
 
@@ -107,12 +118,12 @@ Navigate the Chatverce web app, authenticate, and capture systematic screenshots
 ### Auth Flow
 
 1. Navigate to `<base-url>/auth` (or login page)
-2. Enter email: `admin@siharilabs.com`
+2. Enter email (from `--email` param, default `admin@siharilabs.com`)
 3. Submit
-4. Enter OTP: `123456`
+4. Enter OTP (from `--otp` param, default `123456`)
 5. Submit
-6. Wait for redirect to authenticated state
-7. Verify auth succeeded (check for dashboard or authenticated indicator)
+6. Wait for redirect to authenticated state (up to 10 seconds)
+7. **Verify auth succeeded:** check for an authenticated indicator (e.g., dashboard content, user avatar, absence of login form). If verification fails, abort with error: "Auth failed — check credentials and OTP bypass is enabled on target environment."
 
 ### Screenshot Matrix
 
@@ -126,8 +137,15 @@ For each route, capture:
 
 | Theme | Method | Name |
 |-------|--------|------|
-| Light | `prefers-color-scheme: light` via `browser_evaluate` | `light` |
-| Dark | `prefers-color-scheme: dark` via `browser_evaluate` | `dark` |
+| Light | See theme switching strategy below | `light` |
+| Dark | See theme switching strategy below | `dark` |
+
+**Theme switching strategy** (try in order):
+1. **localStorage key:** Use `browser_evaluate` to set `localStorage.setItem('theme', 'dark')` (or `'light'`) and reload. Check if Chatverce uses a theme key in localStorage.
+2. **UI toggle:** If a theme toggle button exists in the UI, click it via Playwright.
+3. **CSS media emulation:** Use `browser_evaluate` to call Playwright CDP: `await page.emulateMedia({ colorScheme: 'dark' })`. Note: this requires `browser_run_code` or equivalent CDP access.
+
+The crawler should detect which method works on first route and reuse it for subsequent routes. Log which method was used in the manifest.
 
 Total per route: **6 screenshots** (3 viewports × 2 themes).
 
@@ -190,7 +208,18 @@ Directory structure:
 
 ### Purpose
 
-The ruthless design critic. Reviews every screenshot against CDG v2.0 across all 8 dimensions. Annotates problem areas on screenshots. Outputs structured findings.
+The ruthless design critic. Reviews every screenshot against CDG v2.1 across all 8 dimensions. Annotates problem areas on screenshots. Outputs structured findings.
+
+### Review Strategy — Context Window Management
+
+The reviewer processes **one route at a time** to avoid context window overflow:
+
+1. **Per-route invocation:** The orchestrator dispatches a separate reviewer invocation for each route. Each invocation receives the 6 screenshots for that route (3 viewports × 2 themes) plus CDG references.
+2. **CDG loading:** Enforcement guard sub-files (`token-guard.md`, `theme-guard.md`, `a11y-guard.md`, `pattern-guard.md`) are loaded once per invocation. Other sub-files loaded as needed.
+3. **Cross-viewport/theme comparison** happens within the single route invocation (all 6 screenshots are in context together).
+4. **Cross-route comparison** is a final lightweight pass by the orchestrator: it reads all per-route findings and flags any systemic patterns (e.g., "same spacing issue on 4 of 5 routes → systemic, not per-route").
+
+Each per-route invocation appends its findings to `findings.json`. The orchestrator merges them.
 
 ### Persona
 
@@ -211,12 +240,17 @@ Steve Jobs reviewing a product demo. Standards:
 
 - `manifest.json` from crawler
 - Screenshot files
-- CDG skill paths:
-  - `skills/design-ethos/SKILL.md` — philosophy
-  - `skills/design-foundations/SKILL.md` — tokens, color, typography, spacing, motion, a11y
-  - `skills/design-components/SKILL.md` — component catalog
-  - `skills/design-patterns/SKILL.md` — behavioral patterns
-  - `skills/design-enforcement/SKILL.md` — guards (token, theme, a11y, pattern)
+- CDG guidelines — the five `SKILL.md` files are entry points. The reviewer **must read the referenced sub-files** for detailed rules:
+
+  | Skill entry point | Key sub-files to load |
+  |---|---|
+  | `skills/design-ethos/SKILL.md` | `ive-philosophy.md` |
+  | `skills/design-foundations/SKILL.md` | `theme-system.md`, `color.md`, `contrast-matrix.md`, `typography.md`, `layout.md`, `motion.md`, `accessibility.md`, `writing.md` |
+  | `skills/design-components/SKILL.md` | `catalog.md` (for component lookup; individual component files loaded as needed) |
+  | `skills/design-patterns/SKILL.md` | Loaded per-pattern as needed (e.g., `loading.md`, `onboarding.md`, `feedback.md`) |
+  | `skills/design-enforcement/SKILL.md` | `token-guard.md`, `theme-guard.md`, `a11y-guard.md`, `pattern-guard.md` (all four must be loaded for every review) |
+
+  The `SKILL.md` files contain summaries and pointers. The sub-files contain the actual enforcement rules, violation patterns, and detailed specifications. The reviewer must load the enforcement guard sub-files for every review.
 
 ### Review Process
 
@@ -252,12 +286,23 @@ For each screenshot:
 
 ### Annotation
 
-For P0 and P1 findings, the reviewer annotates the screenshot:
-- Draw a red rectangle around the problem area
-- Add a numbered label corresponding to the finding
-- Save as `<route>/<viewport>-<theme>-annotated.png`
+For P0 and P1 findings, the reviewer produces annotated screenshots. Two-tier approach:
 
-Annotation method: Use Playwright to open the screenshot in a browser page, overlay red rectangles via JavaScript canvas/CSS, then re-screenshot.
+**Tier 1 — DOM-based annotation (preferred):** The crawler keeps the live page state available. The reviewer uses `browser_evaluate` to inject CSS highlight overlays on specific DOM elements (using CSS selectors identified from `browser_snapshot`), then re-screenshots. This produces precise, pixel-accurate annotations because coordinates come from the live DOM.
+
+**Tier 2 — Description-based annotation (fallback):** If DOM-based annotation is not feasible (e.g., the element cannot be targeted by selector), the reviewer describes the problem location in text: quadrant (top-left, center, bottom-right), component name, and approximate position. The finding's `location` field carries this description instead of an annotated screenshot.
+
+**Implementation detail for Tier 1:**
+1. The crawler, after taking each screenshot, also captures a `browser_snapshot` (accessibility tree) and saves it alongside the screenshot in the manifest.
+2. The reviewer reads the snapshot to identify DOM selectors for problem elements.
+3. The reviewer uses `browser_navigate` to the same URL + viewport + theme, then injects a highlight overlay via `browser_evaluate`:
+   ```js
+   document.querySelector('<selector>').style.outline = '3px solid red';
+   document.querySelector('<selector>').style.outlineOffset = '2px';
+   ```
+4. Re-screenshot and save as `<route>/<viewport>-<theme>-annotated.png`.
+
+Annotation failures are non-blocking. If annotation fails, the finding is still recorded with the original (unannotated) screenshot.
 
 ### Output
 
@@ -309,13 +354,30 @@ Transform review findings into well-structured GitHub issues on the Chatverce pr
 - `findings.json` from reviewer
 - Annotated screenshot files
 
+### Screenshot Upload
+
+GitHub issues require hosted image URLs. The reporter uses this approach:
+
+1. **Create the issue first** with a placeholder for the screenshot.
+2. **Upload the image** using `gh api` to upload as an issue attachment (GitHub's upload endpoint via the issue comment API — attach images in a comment, extract the hosted URL).
+3. **Edit the issue body** to replace the placeholder with the hosted URL.
+
+If image upload fails, the issue is still created with a text note: "Screenshot available locally at `/tmp/visual-qa/<path>`". Image embedding failure is non-blocking.
+
 ### Deduplication
 
-Before creating issues, deduplicate findings that describe the same underlying problem across different viewports or themes:
+Before creating issues, the qa-issue-reporter agent uses LLM judgment to deduplicate findings that describe the same underlying problem:
 
-- Same problem on desktop+tablet+mobile → one issue mentioning all 3 viewports
+- Same problem on desktop+tablet+mobile → one issue listing all affected viewports
 - Same problem in light+dark → one issue noting both themes
-- Group by: route + dimension + title similarity
+- **Grouping criteria:** route + dimension + semantic similarity of title and description (agent judgment, not string matching)
+
+**Merge rules for deduplicated findings:**
+- The merged issue inherits all viewport and theme labels from its constituent findings
+- All annotated screenshots from constituent findings are included
+- Description combines details from all constituent findings, noting which viewports/themes are affected
+- Severity is the highest severity among constituent findings (e.g., P0 + P1 → P0)
+- Original finding IDs are preserved in the issue body for traceability
 
 ### Label Setup
 
@@ -468,11 +530,39 @@ chatverce-design/
 
 ---
 
+## Re-run Behavior
+
+When `/visual-qa` is run again on routes that were previously tested:
+
+1. **Before creating issues**, the reporter searches for existing open issues with the `visual-qa` label matching the route (by searching issue titles for `[Visual QA] /<route>`).
+2. **New findings** that don't match any existing open issue → create new issues.
+3. **Existing findings** that match an open issue → add a comment with updated status ("Still present as of <date>") rather than creating duplicates.
+4. **Resolved findings** — existing open issues whose problem is no longer found → add a comment noting the fix and close the issue: "This issue was not detected in the latest visual QA run. Closing as resolved."
+5. **Epic updates** — if an Epic exists for the route, update its summary counts and findings checklist.
+
+This makes re-runs safe and idempotent. Each run improves the issue state rather than polluting it.
+
+---
+
+## Route Handling
+
+- **Nested routes:** `/dashboard/analytics` is valid. Directory name uses path separators replaced with hyphens: `dashboard-analytics/`.
+- **Parameterized routes:** The user provides the full resolved path (e.g., `/user/123/profile`, not `/user/:id/profile`).
+- **Redirects:** The crawler follows redirects and screenshots the final destination. The manifest records both the requested path and the final resolved URL.
+
+---
+
+## Plugin Discovery
+
+Claude Code auto-discovers agents from the `agents/` directory and commands from the `commands/` directory. No explicit registration in `plugin.json` is needed. The version bump in `plugin.json` ensures users pull the update.
+
+---
+
 ## Constraints and Limitations
 
 1. **Screenshots are visual only** — the steve-jobs-reviewer analyzes rendered screenshots, not source code. For code-level violations (hardcoded tokens, missing ARIA attributes), use the existing `design-reviewer` agent separately.
 
-2. **Auth credentials are hardcoded** — `admin@siharilabs.com` / OTP `123456`. These must work on both localhost and staging.
+2. **Auth credentials default to test values** — `admin@siharilabs.com` / OTP `123456` by default, overridable via `--email` and `--otp`. These must work on the target environment (OTP bypass must be enabled).
 
 3. **State capture is best-effort** — empty states and loading states are only captured if the crawler can trigger them through UI interaction. Some states may require specific data conditions.
 
@@ -487,7 +577,7 @@ chatverce-design/
 ## Success Criteria
 
 1. Running `/visual-qa /dashboard` produces 6 screenshots (3 viewports × 2 themes)
-2. The steve-jobs-reviewer identifies at least the same class of issues as the existing design-reviewer code audit
+2. The steve-jobs-reviewer catches all visually-apparent P0 and P1 issues (text unreadable, broken layouts, missing components, contrast failures)
 3. GitHub issues are well-structured with annotated screenshots, clear descriptions, and correct labels
 4. Issues appear on the Chatverce project board with correct status and priority
 5. The terminal summary gives a clear at-a-glance picture of quality
