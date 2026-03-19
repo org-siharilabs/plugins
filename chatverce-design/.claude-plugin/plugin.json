@@ -1,7 +1,7 @@
 {
   "name": "chatverce-design",
   "description": "Chatverce Design Guidelines (CDG) — agent-agnostic design system for building Chatverce across web and mobile. Covers philosophy, foundations, patterns, components, and enforcement.",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "author": {
     "name": "Sihari Labs",
     "email": "admin@siharilabs.com"
